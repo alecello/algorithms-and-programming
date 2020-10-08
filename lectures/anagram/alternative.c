@@ -5,9 +5,6 @@
 
 int main(void)
 {
-    char charFrequency1[26];
-    char charFrequency2[26];
-
     char string1[MAXLENGTH];
     char string2[MAXLENGTH];
     

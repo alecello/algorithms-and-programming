@@ -30,10 +30,11 @@ int main(void)
     int i = 0;
     while(i <= (DIM1 - DIM2))
     {
-        if(v1[i] = v2[0])
+        int found = 1;
+
+        if(v1[i] == v2[0])
         {
             int j = 1;
-            int found = 1;
 
             while(j < DIM2 && found)
             {
@@ -44,9 +45,11 @@ int main(void)
             }
 
             if(found)
-                printf("Subvector found at pos %d.\n", i);
-
-            i += (!OVERLAPPING && found) ? DIM2 : 1;            
+                printf("Subvector found at pos %d.\n", i);          
         }
+        else
+            found = 0;
+
+        i += (!OVERLAPPING && found) ? DIM2 : 1;  
     }
 }
