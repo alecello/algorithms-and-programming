@@ -26,8 +26,8 @@ int findNext(char *string, char *pattern, int from)
 
 int main(int argc, char **argv)
 {
-    char pattern[MAXLEN];
-    char substitution[MAXLEN];
+    char pattern[MAXLEN + 1];
+    char substitution[MAXLEN + 1];
 
     // Worst case scenario: MAXLEN occurrances of a single character that gets replaced with a MAXLEN string
     // Therefore the maximum length is MAXLEN*MAXLEN plus 1 character for the terminator.

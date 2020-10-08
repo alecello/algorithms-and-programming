@@ -5,8 +5,8 @@
 
 int main(void)
 {
-    char string1[MAXLENGTH];
-    char string2[MAXLENGTH];
+    char string1[MAXLENGTH + 1];
+    char string2[MAXLENGTH + 1];
     
     printf("Insert first string (max %d characters): ", MAXLENGTH);
     scanf("%s", string1);
