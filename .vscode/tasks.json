@@ -7,6 +7,10 @@
             "label": "Compile all programs",
             "type": "process",
             "command": "make",
+            "args":
+            [
+                "recompile"
+            ],
             "options": {
                 "cwd": "${workspaceFolder}"
             },

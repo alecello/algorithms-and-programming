@@ -1,4 +1,4 @@
-# Exclude files that do not have an extension (compiled binaries)
+# Exclude files that do not have an extension except Makefile (compiled binaries)
 *
 !/**/
 !*.*
