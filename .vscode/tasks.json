@@ -7,8 +7,7 @@
             "label": "Compile all programs",
             "type": "process",
             "command": "make",
-            "args":
-            [
+            "args": [
                 "recompile"
             ],
             "options": {
@@ -26,10 +25,32 @@
                 "showReuseMessage": false,
                 "clear": false
             },
-            "group": {
+            "group":
+            {
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Compile current file",
+            "type": "process",
+            "command": "make",
+            "args": [
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": "$gcc",
+            "presentation": {
+                "echo": false,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "group": "build"
         }
     ]
 }

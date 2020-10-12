@@ -33,7 +33,7 @@ int main(void)
      */
     for(found=1, i=0; i < strlen(string1) && found; ++i)
         for(found=0, j=0; j < strlen(string2) && !found; j++)
-            if(string2[j] == string1[j])
+            if(string2[j] == string1[i])
             {
                 string2[j] = '-';
                 found = 1;
