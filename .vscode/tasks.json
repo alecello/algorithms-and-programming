@@ -18,7 +18,7 @@
                 "runOn": "default"
             },
             "presentation": {
-                "echo": false,
+                "echo": true,
                 "reveal": "never",
                 "focus": false,
                 "panel": "shared",
@@ -43,7 +43,7 @@
             },
             "problemMatcher": "$gcc",
             "presentation": {
-                "echo": false,
+                "echo": true,
                 "reveal": "never",
                 "focus": false,
                 "panel": "shared",

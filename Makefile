@@ -7,4 +7,4 @@ clean:
 recompile: clean $(OUT)
 
 %: %.c | $(SRC)
-	gcc -o $@ $^ -Wall -pedantic -ggdb
+	gcc -o $@ $^ -Wall -pedantic -ggdb -lm
