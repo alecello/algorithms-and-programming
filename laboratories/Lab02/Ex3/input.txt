@@ -1,0 +1,11 @@
+Regression file.
+This file is to test the program.
+In the previous line we should have a substitution (testWITHcheck).
+Here we should not have it: t-e-s-t.
+test at the beginning
+in the end there is a test
+test test test test test test
+t e s t
+
+
+lmaoborghini

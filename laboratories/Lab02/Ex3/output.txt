@@ -1,0 +1,11 @@
+Regression file.
+This file is to check the program.
+In the previous line we should have a substitution (checkWITHcheck).
+Here we should not have it: t-e-s-t.
+check at the beginning
+in the end there is a check
+check check check check check check
+t e s t
+
+
+lmaoborghini
