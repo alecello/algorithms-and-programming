@@ -42,7 +42,7 @@ int main(void)
 
     // Dimensions of the matrix
     int x,y;
-    fscanf(inputFile, "%d %d\n", &x, &y);
+    fscanf(inputFile, "%d %d\n", &y, &x);
 
     // Grid allocation
     char **grid = (char **) malloc(y * sizeof(char *));
@@ -88,28 +88,28 @@ int main(void)
             int gx = found[j].x;
             int gy = found[j].y;
 
-            if(found[i].direction == RS)
+            if(found[j].direction == RS)
                 for(int k = 0; k < strlen(found[j].word); ++k)
                     result[gy][gx + k] = found[j].word[k];
-            else if(found[i].direction == LS)
+            else if(found[j].direction == LS)
                 for(int k = 0; k < strlen(found[j].word); ++k)
                     result[gy][gx - k] = found[j].word[k];
-            else if(found[i].direction == US)
+            else if(found[j].direction == US)
                 for(int k = 0; k < strlen(found[j].word); ++k)
                     result[gy - k][gx] = found[j].word[k];
-            else if(found[i].direction == DS)
+            else if(found[j].direction == DS)
                 for(int k = 0; k < strlen(found[j].word); ++k)
                     result[gy + k][gx] = found[j].word[k];
-            else if(found[i].direction == UR)
+            else if(found[j].direction == UR)
                 for(int k = 0; k < strlen(found[j].word); ++k)
                     result[gy - k][gx + k] = found[j].word[k];
-            else if(found[i].direction == UL)
+            else if(found[j].direction == UL)
                 for(int k = 0; k < strlen(found[j].word); ++k)
                     result[gy - k][gx - k] = found[j].word[k];
-            else if(found[i].direction == DR)
+            else if(found[j].direction == DR)
                 for(int k = 0; k < strlen(found[j].word); ++k)
                     result[gy + k][gx + k] = found[j].word[k];
-            else if(found[i].direction == DL)
+            else if(found[j].direction == DL)
                 for(int k = 0; k < strlen(found[j].word); ++k)
                     result[gy + k][gx - k] = found[j].word[k];
         }
@@ -207,7 +207,7 @@ int findWords(char **grid, int x, int y, char *word, WORD **found)
                 {
                     pointer = (WORD *) realloc(pointer, ++matches * sizeof(WORD));
 
-                    pointer[matches - 1].direction = LS;
+                    pointer[matches - 1].direction = RS;
                     pointer[matches - 1].word = word;
 
                     pointer[matches - 1].x = j;
