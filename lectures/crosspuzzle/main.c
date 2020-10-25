@@ -52,7 +52,7 @@ int main(void)
     // Results grid allocation
     char **result = (char **) malloc(y * sizeof(char *));
     for(int i = 0; i < y; ++i)
-        grid[i] = (char *) malloc(x * sizeof(char));
+        result[i] = (char *) malloc(x * sizeof(char));
 
     for(int i = 0; i < y; ++i)
         for(int j = 0; j < x; ++j)
@@ -131,7 +131,7 @@ int main(void)
     for(int i = 0; i < y; ++i)
     {
         free(grid[i]);
-        free(result[i]);
+        //free(result[i]);
     }
 
     free(grid);
