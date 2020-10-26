@@ -131,7 +131,7 @@ int main(void)
     for(int i = 0; i < y; ++i)
     {
         free(grid[i]);
-        //free(result[i]);
+        free(result[i]);
     }
 
     free(grid);
