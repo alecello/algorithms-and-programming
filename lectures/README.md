@@ -24,6 +24,9 @@ Replace an arbitrary length substring inside another arbitrary length string wit
 ## Roman numbers
 Convert a roman number into a decimal format.
 
+## Snake
+Find a series of snakes on a grid. A `+` character is the head, a `*` character is the body, a `.` character is the background. Snakes are guaranteed to lay in a straight line and not touch eachother.
+
 ## String passing
 Showcase how strings are passed between functions.
 
