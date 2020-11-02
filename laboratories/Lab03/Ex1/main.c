@@ -50,23 +50,20 @@ int main(void)
 int readWords(WORD *words, FILE *wordFile, int *maxWordLen)
 {
     int index = 0;
-    char line[MAX_WORD_LEN + 1 + 1];
+    char WORD[MAX_WORD_LEN + 1];
 
-    while(fgets(line, (MAX_WORD_LEN + 1 + 1), wordFile) != NULL)
+    while(fscanf(wordFile, "%s", WORD) != EOF)
     {
-        for(int i = 0; i < strlen(line); ++i)
-            if(line[i] == '\n')
-                line[i] = 0;
-            else
-                line[i] = tolower(line[i]);
-        
-        strncpy(words[index].word, line, (MAX_WORD_LEN + 1));
+        for(int i = 0; i < strlen(WORD); ++i)
+            WORD[i] = tolower(WORD[i]);
+
+        strncpy(words[index].word, WORD, (MAX_WORD_LEN + 1));
         words[index].frequency = 0;
         ++index;
 
         // At this point any eventual newline has already been replaced, so strlen(line) returns effective word length.
-        if(strlen(line) > *maxWordLen)
-            *maxWordLen = strlen(line);
+        if(strlen(WORD) > *maxWordLen)
+            *maxWordLen = strlen(WORD);
     }
 
     return index;
@@ -74,41 +71,15 @@ int readWords(WORD *words, FILE *wordFile, int *maxWordLen)
 
 void getFrequency(FILE *textFile, WORD *words, int wordCount)
 {
-    char line[MAX_LINE_LEN + 1 + 1];
+    char WORD[MAX_LINE_LEN + 1];
 
-    while(fgets(line, (MAX_LINE_LEN + 1 + 1), textFile) != NULL)
+    while(fscanf(textFile, "%s", WORD) != EOF)
     {
-        for(int i = 0; i < strlen(line); ++i)
-            line[i] = tolower(line[i]);
-
+        for(int i = 0; i < strlen(WORD); ++i)
+            WORD[i] = tolower(WORD[i]);
+        
         for(int i = 0; i < wordCount; ++i)
-        {
-            char *word = words[i].word;
-            char *wpos = NULL;
-
-            int wordLen = strlen(word);
-            int frequency = 0;
-            int offset = 0;
-
-            do
-            {
-                wpos = strstr(line + offset, word);
-                
-                if(wpos != NULL)
-                {
-                    int j = wpos - line;
-
-                    for(int k = j; k < wordLen; ++k)
-                        line[k] = ' ';
-                    
-                    if((j == 0 || line[j-1] == ' ') && (line[j + wordLen] == 0 || line[j + wordLen] == ' ' || line[j + wordLen] == '\n'))
-                    ++frequency;
-                    offset = j + wordLen;
-                }
-            }
-            while(wpos != NULL);
-
-            words[i].frequency += frequency;
-        }
+            if(strlen(words[i].word) == strlen(WORD) && strcmp(words[i].word, WORD) == 0)
+                ++words[i].frequency;
     }
 }

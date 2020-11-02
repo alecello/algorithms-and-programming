@@ -18,9 +18,6 @@ typedef struct
     float x2;
     float y2;
 
-    // Number of coordinates already read
-    int coordsRead;
-
     // Sizes of the rectangle
     float x;
     float y;
@@ -61,10 +58,6 @@ int main(int argc, char **argv)
         areaFilePath = argv[2];
         perimeterFilePath = argv[3];
     }
-
-    // Initialze rectangles
-    for(int i = 0; i < RECT_MAX; ++i)
-        rectangles[i].coordsRead = 0;
 
     FILE *inputFile = fopen(inputFilePath, "r");
     FILE *areaFile = fopen(areaFilePath, "w");
@@ -112,17 +105,15 @@ int readRectangles(FILE *inputFile, RECTANGLE *rectangles)
     {
         int index = getIndex(name, count, rectangles);
 
-        if(rectangles[index].coordsRead == 0)
+        if(index == count)  // New rectangle -> read first coordinate
         {
             rectangles[index].x1 = x;
             rectangles[index].y1 = y;
-            ++rectangles[index].coordsRead;
         }
-        else
+        else    // Old rectangle -> read second coordinate
         {
             rectangles[index].x2 = x;
             rectangles[index].y2 = y;
-            ++rectangles[index].coordsRead;
         }
 
         // If index == count we're initializing the rectangle for the first time

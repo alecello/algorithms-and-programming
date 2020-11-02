@@ -5,7 +5,6 @@
 int main(void)
 {
     int vector[DIM];
-    int start,length = 0;
 
     for(int i = 0; i < DIM; ++i)
     {
@@ -13,29 +12,29 @@ int main(void)
         scanf("%d", &vector[i]);
     }
 
-    for(int i = 0; i < DIM; ++i)
+    int length = 1;
+    int maxLength = 0;
+    int index = 0;
+
+    for(int i = 1; i <= DIM; ++i)
     {
-        int len = 1;
-        int cont = 1;
-
-        for(int j = (i + 1); (j < DIM) && cont; ++j)
+        if(i < DIM && vector[i] >= vector[i-1])
+            ++length;
+        else
         {
-            if(vector[j] >= vector[j - 1])
-                ++len;
-            else
-                cont = 0;
-        }
+            if(length > maxLength)
+            {
+                maxLength = length;
+                index = i - maxLength;
+            }
 
-        if(len > length)
-        {
-            start = i;
-            length = len;
+            length = 0;
         }
     }
 
-    printf("Longest ascending sequence:\n");
+    printf("Longest ascending sequence (dimension = %d, index = %d):\n", maxLength, index);
 
-    for(int i = start; i < start + length; ++i)
+    for(int i = index; i < index + maxLength; ++i)
         printf("%d\n", vector[i]);
     
     return 0;

@@ -18,9 +18,6 @@ typedef struct
     float x2;
     float y2;
 
-    // Number of coordinates already read
-    int coordsRead;
-
     // Sizes of the rectangle
     float x;
     float y;
@@ -104,10 +101,6 @@ int readRectangles(FILE *inputFile, RECTANGLE **rectangles)
 
     RECTANGLE *result = (RECTANGLE *) malloc(count * sizeof(RECTANGLE));
 
-    // Initialize rectangles
-    for(int i = 0; i < count; ++i)
-        result[i].coordsRead = 0;
-
     float x,y;
     char name[NAME_LEN + 1];
 
@@ -117,17 +110,15 @@ int readRectangles(FILE *inputFile, RECTANGLE **rectangles)
         fscanf(inputFile, "%s %f %f\n", name, &x, &y);
         int index = getIndex(name, i, result);
 
-        if(result[index].coordsRead == 0)
+        if(index == count)  // New rectangle -> read first coordinate
         {
             result[index].x1 = x;
             result[index].y1 = y;
-            ++result[index].coordsRead;
         }
-        else
+        else    // Old rectangle -> read second coordinate
         {
             result[index].x2 = x;
             result[index].y2 = y;
-            ++result[index].coordsRead;
         }
 
         // If index == i we're initializing the rectangle for the first time

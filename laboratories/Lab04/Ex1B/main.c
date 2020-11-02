@@ -59,12 +59,12 @@ int readWords(WORD **words, FILE *wordFile, int *maxWordLen)
     int max = 0;
     int wordCount;
 
-    fscanf(wordFile, "%d\n", &wordCount);
+    fscanf(wordFile, "%d", &wordCount);
     WORD *result = malloc(wordCount * sizeof(WORD));
 
     for(int i = 0; i < wordCount; ++i)
     {
-        fscanf(wordFile, "%s\n", line);
+        fscanf(wordFile, "%s", line);
 
         for(int i = 0; i < strlen(line); ++i)
                 line[i] = tolower(line[i]);
@@ -86,41 +86,15 @@ int readWords(WORD **words, FILE *wordFile, int *maxWordLen)
 
 void getFrequency(FILE *textFile, WORD *words, int wordCount)
 {
-    char line[MAX_LINE_LEN + 1 + 1];
+    char WORD[MAX_LINE_LEN + 1];
 
-    while(fgets(line, (MAX_LINE_LEN + 1 + 1), textFile) != NULL)
+    while(fscanf(textFile, "%s", WORD) != EOF)
     {
-        for(int i = 0; i < strlen(line); ++i)
-            line[i] = tolower(line[i]);
-
+        for(int i = 0; i < strlen(WORD); ++i)
+            WORD[i] = tolower(WORD[i]);
+        
         for(int i = 0; i < wordCount; ++i)
-        {
-            char *word = words[i].word;
-            char *wpos = NULL;
-
-            int wordLen = strlen(word);
-            int frequency = 0;
-            int offset = 0;
-
-            do
-            {
-                wpos = strstr(line + offset, word);
-                
-                if(wpos != NULL)
-                {
-                    int j = wpos - line;
-
-                    for(int k = j; k < wordLen; ++k)
-                        line[k] = ' ';
-                    
-                    if((j == 0 || line[j-1] == ' ') && (line[j + wordLen] == 0 || line[j + wordLen] == ' ' || line[j + wordLen] == '\n'))
-                    ++frequency;
-                    offset = j + wordLen;
-                }
-            }
-            while(wpos != NULL);
-
-            words[i].frequency += frequency;
-        }
+            if(strlen(words[i].word) == strlen(WORD) && strcmp(words[i].word, WORD) == 0)
+                ++words[i].frequency;
     }
 }
