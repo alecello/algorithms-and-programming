@@ -45,6 +45,13 @@ int main(void)
     getLengths(map, height, width, snakes, snakeCount, &min, &max);
 
     printf("\nNumber of snakes: %d\nMinimum length: %d\nMaximum length: %d\n", snakeCount, min, max);
+
+    // Free allocated memory
+    for(int i = 0; i < height; ++i)
+        free(map[i]);
+
+    free(map);
+    free(snakes);
 }
 
 void readField(FILE *input, char **map, int height, int width)
@@ -67,6 +74,9 @@ void readField(FILE *input, char **map, int height, int width)
         
         putc('\n', stdout);
     }
+
+    free(line);
+    return;
 }
 
 int getSnakes(SNAKE **pointer, char **map, int height, int width)
