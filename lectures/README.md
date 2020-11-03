@@ -15,6 +15,9 @@ Deletes a certain value from an integer array, shrinking (but not reallocating) 
 ## Horizontal histogram
 Plot on an horizontal histogram the frequency of the input values sorted in classes.
 
+## List sorting
+Sort a linked list using insertion sort.
+
 ## Pointer and value
 Small code snippet to show the difference between pointers and values and their usage.
 
