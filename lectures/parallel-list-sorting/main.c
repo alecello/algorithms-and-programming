@@ -14,13 +14,15 @@ struct element
     element *next;
 };
 
+element *listCopy(element *list);
 element *readData(char *filename);
 element *sortInPlace(element *list, char *criterion);
 void writeToFile(element *list, char *filename);
 
 int main(void)
 {
-    element *list;
+    element *nameList;
+    element *markList;
 
     int run = 1;
     while(run)
@@ -34,27 +36,40 @@ int main(void)
         if(strcmp(command, "read") == 0)
         {
             scanf("%s", argument);
-            list = readData(argument);
+            nameList = readData(argument);
+            markList = listCopy(nameList);
+
+            nameList = sortInPlace(nameList, "name");
+            markList = sortInPlace(markList, "mark");
         }
         else if(strcmp(command, "writen") == 0)
         {
             scanf("%s", argument);
-            list = sortInPlace(list, "name");
-            writeToFile(list, argument);
+            writeToFile(nameList, argument);
         }
         else if(strcmp(command, "writem") == 0)
         {
             scanf("%s", argument);
-            list = sortInPlace(list, "mark");
-            writeToFile(list, argument);
+            writeToFile(markList, argument);
         }
         else if(strcmp(command, "stop") == 0)
             run = 0;
         else
-            printf("Unknown command.\n");
+            printf("Unknown command.\n");        
     }
 
-    element *e = list;
+    element *e = nameList;
+    while(e != NULL)
+    {
+        element *next = e->next;
+
+        free(e->name);
+        free(e);
+
+        e = next;
+    }
+
+    e = markList;
     while(e != NULL)
     {
         element *next = e->next;
@@ -74,6 +89,29 @@ void appendToList(element *list, element *e)
         list = list->next;
     
     list->next = e;
+}
+
+element *listCopy(element *list)
+{
+    element *copy = NULL;
+
+    while(list != NULL)
+    {
+        element *e = malloc(sizeof(element));
+
+        e->name = strdup(list->name);
+        e->mark = list->mark;
+        e->next = NULL;
+
+        if(copy != NULL)
+            appendToList(copy, e);
+        else
+            copy = e;
+
+        list = list->next;
+    }
+
+    return copy;
 }
 
 element *readData(char *filename)
