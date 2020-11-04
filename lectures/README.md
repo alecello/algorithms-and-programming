@@ -18,6 +18,9 @@ Plot on an horizontal histogram the frequency of the input values sorted in clas
 ## List sorting
 Sort a linked list using insertion sort.
 
+## Parallel list sorting
+Like list sorting, but two parallel lists are created and sorted individually.
+
 ## Pointer and value
 Small code snippet to show the difference between pointers and values and their usage.
 

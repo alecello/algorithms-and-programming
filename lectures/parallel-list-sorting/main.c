@@ -91,6 +91,8 @@ void appendToList(element *list, element *e)
     list->next = e;
 }
 
+// It would definitely be more efficient to just allocate two lists within readData(), but
+// it's more educational to implement list copying.
 element *listCopy(element *list)
 {
     element *copy = NULL;
