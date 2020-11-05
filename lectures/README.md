@@ -18,6 +18,11 @@ Plot on an horizontal histogram the frequency of the input values sorted in clas
 ## List sorting
 Sort a linked list using insertion sort.
 
+## Lonely hearts club
+Read a formatted text document (database) and accept queries from the command line. Only show the first person in the database that matches the query.
+
+The query is a single `F` or `M` character (for gender) followed by an arbitrary number of `key value` string pairs. The gender can be replaced with `T` for program termination.
+
 ## Parallel list sorting
 Like list sorting, but two parallel lists are created and sorted individually.
 
