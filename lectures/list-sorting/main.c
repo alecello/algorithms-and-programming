@@ -144,8 +144,7 @@ element *sortInPlace(element *list, char *criterion)
         pointer->sorted = 0;
         pointer = pointer->next;
     }
-    
-    // TODO: What happens with list of one element?
+
     pointer->sorted = 1;
     
     while(list->sorted == 0)
@@ -157,7 +156,7 @@ element *sortInPlace(element *list, char *criterion)
         element *current = pointer;
 
         while(current->next != NULL && needsSwap(pointer, current->next, criterion))
-            current = current->next; //TODO: Can this be null
+            current = current->next;
         
         // No need to swap with itself
         if(current != pointer)

@@ -8,19 +8,24 @@ typedef struct element element;
 struct element
 {
     char *name;
-    char sorted;
     float mark;
 
-    element *next;
+    char sortedName;
+    char sortedMark;
+
+    element *nextName;
+    element *nextMark;
 };
 
 element *listCopy(element *list);
 element *readData(char *filename);
-element *sortInPlace(element *list, char *criterion);
-void writeToFile(element *list, char *filename);
+void sortInPlace(element *list, char *criterion, element **nameList, element **markList);
+void writeToFile(element *list, char *filenamem, char* criterion);
 
 int main(void)
 {
+    element *list;
+
     element *nameList;
     element *markList;
 
@@ -36,21 +41,18 @@ int main(void)
         if(strcmp(command, "read") == 0)
         {
             scanf("%s", argument);
-            nameList = readData(argument);
-            markList = listCopy(nameList);
-
-            nameList = sortInPlace(nameList, "name");
-            markList = sortInPlace(markList, "mark");
+            list = readData(argument);
+            sortInPlace(list, "name", &nameList, &markList);
         }
         else if(strcmp(command, "writen") == 0)
         {
             scanf("%s", argument);
-            writeToFile(nameList, argument);
+            writeToFile(nameList, argument, "name");
         }
         else if(strcmp(command, "writem") == 0)
         {
             scanf("%s", argument);
-            writeToFile(markList, argument);
+            writeToFile(markList, argument, "mark");
         }
         else if(strcmp(command, "stop") == 0)
             run = 0;
@@ -58,21 +60,10 @@ int main(void)
             printf("Unknown command.\n");        
     }
 
-    element *e = nameList;
+    element *e = list;
     while(e != NULL)
     {
-        element *next = e->next;
-
-        free(e->name);
-        free(e);
-
-        e = next;
-    }
-
-    e = markList;
-    while(e != NULL)
-    {
-        element *next = e->next;
+        element *next = e->nextName;
 
         free(e->name);
         free(e);
@@ -83,37 +74,14 @@ int main(void)
     return 0;
 }
 
+// This assumes that the list by name and list by mark are absolutely identical
 void appendToList(element *list, element *e)
 {
-    while(list->next != NULL)
-        list = list->next;
-    
-    list->next = e;
-}
+    while(list->nextName != NULL)
+        list = list->nextName;
 
-// It would definitely be more efficient to just allocate two lists within readData(), but
-// it's more educational to implement list copying.
-element *listCopy(element *list)
-{
-    element *copy = NULL;
-
-    while(list != NULL)
-    {
-        element *e = malloc(sizeof(element));
-
-        e->name = strdup(list->name);
-        e->mark = list->mark;
-        e->next = NULL;
-
-        if(copy != NULL)
-            appendToList(copy, e);
-        else
-            copy = e;
-
-        list = list->next;
-    }
-
-    return copy;
+    list->nextName = e;
+    list->nextMark = e;
 }
 
 element *readData(char *filename)
@@ -136,8 +104,10 @@ element *readData(char *filename)
 
         pointer->name = strdup(name);
         pointer->mark = mark;
-        pointer->sorted = 0;
-        pointer->next = NULL;
+        pointer->sortedName = 0;
+        pointer->sortedMark = 0;
+        pointer->nextName = NULL;
+        pointer->nextMark = NULL;
 
         if(list == NULL) // First element
             list = pointer;
@@ -159,7 +129,7 @@ int needsSwap(element *current, element *next, char *criterion)
         return 0;
 }
 
-element *getParent(element *list, element *e)
+element *getParent(element *list, element *e, char *criterion)
 {
     if(e == list)
         return NULL;
@@ -167,62 +137,111 @@ element *getParent(element *list, element *e)
     {
         element *parent = list;
 
-        while(parent->next != NULL && parent->next != e)
-            parent = parent->next;
-        
+        if(!strcmp(criterion, "name"))
+            while(parent->nextName != NULL && parent->nextName != e)
+                parent = parent->nextName;
+        else if(!strcmp(criterion, "mark"))
+            while(parent->nextMark != NULL && parent->nextMark != e)
+                parent = parent->nextMark;
+        else
+            return NULL;
+
         return parent;
     }
 }
 
-element *sortInPlace(element *list, char *criterion)
+void swapElements(element **list, element *pointer, element *current, char *criterion)
 {
-    element *pointer = list;
+    element *pointerParent = getParent(*list, pointer, criterion);
 
-    // Last element is sorted by definition
-    while(pointer->next != NULL)
+    // We might want to update nextMark or nextName depending on what is the criterion
+    element **pointerNextPointer;
+    element **currentNextPointer;
+    element **pParentNextPointer;
+
+    if(!strcmp(criterion, "name"))
     {
-        pointer->sorted = 0;
-        pointer = pointer->next;
+        pointerNextPointer = &(pointer->nextName);
+        currentNextPointer = &(current->nextName);
+        pParentNextPointer = &(pointerParent->nextName);
     }
-    
-    // TODO: What happens with list of one element?
-    pointer->sorted = 1;
-    
-    while(list->sorted == 0)
+    else
     {
-        pointer = list;
-        while(pointer->next != NULL && pointer->next->sorted == 0)
-            pointer = pointer->next;
-
-        element *current = pointer;
-
-        while(current->next != NULL && needsSwap(pointer, current->next, criterion))
-            current = current->next; //TODO: Can this be null
-        
-        // No need to swap with itself
-        if(current != pointer)
-        {
-            // Now current is the element we need to swap with
-            element *currentChild = current->next;
-            element *pointerChild = pointer->next;
-
-            element *pointerParent = getParent(list, pointer);
-            if(pointerParent != NULL)
-                pointerParent->next = pointerChild;
-            else
-                list = pointerChild;
-            
-            pointer->next = currentChild;
-            current->next = pointer;
-        }
-
-        pointer->sorted = 1;
+        pointerNextPointer = &(pointer->nextMark);
+        currentNextPointer = &(current->nextMark);
+        pParentNextPointer = &(pointerParent->nextMark);
     }
 
-    return list;
+    // Now current is the element we need to swap with
+    element *currentChild = *currentNextPointer;
+    element *pointerChild = *pointerNextPointer;
+
+    if(pointerParent != NULL)
+        *pParentNextPointer = pointerChild;
+    else
+        *list = pointerChild;
+    
+    *pointerNextPointer = currentChild;
+    *currentNextPointer = pointer;
 }
 
-void writeToFile(element *list, char *filename)
+void sortInPlace(element *list, char *criterion, element **nameList, element **markList)
+{
+    element *listName = list;
+    element *listMark = list;
+
+    element *pointerName = listName;
+    element *pointerMark = listMark;
+
+    // Last element is sorted by definition
+    // At this point both lists are equal so we can just iterate on one criterion
+    while(pointerName->nextName != NULL)
+    {
+        pointerName->sortedName = 0;
+        pointerName->sortedMark = 0;
+        pointerName = pointerName->nextName;
+    }
+
+    pointerName->sortedName = 1;
+    pointerName->sortedMark = 1;
+    
+    while(listName->sortedName == 0 || listMark->sortedMark == 0)
+    {
+        pointerName = listName;
+        pointerMark = listMark;
+
+        while(pointerName->nextName != NULL && pointerName->nextName->sortedName == 0)
+            pointerName = pointerName->nextName;
+
+        while(pointerMark->nextMark != NULL && pointerMark->nextMark->sortedMark == 0)
+            pointerMark = pointerMark->nextMark;
+
+        element *currentName = pointerName;
+        element *currentMark = pointerMark;
+
+        while(currentName->nextName != NULL && needsSwap(pointerName, currentName->nextName, "name"))
+            currentName = currentName->nextName;
+
+        while(currentMark->nextMark != NULL && needsSwap(pointerMark, currentMark->nextMark, "mark"))
+            currentMark = currentMark->nextMark;
+        
+        // No need to swap with itself
+        if(currentName != pointerName)
+            swapElements(&listName, pointerName, currentName, "name");
+        
+        // No need to swap with itself
+        if(currentMark != pointerMark)
+            swapElements(&listMark, pointerMark, currentMark, "mark");
+
+        pointerName->sortedName = 1;
+        pointerMark->sortedMark = 1;
+    }
+
+    *nameList = listName;
+    *markList = listMark;
+}
+
+void writeToFile(element *list, char *filename, char *criterion)
 {
     element *pointer = list;
 
@@ -236,7 +255,11 @@ void writeToFile(element *list, char *filename)
     while(pointer != NULL)
     {
         fprintf(output, "%s %.2f\n", pointer->name, pointer->mark);
-        pointer = pointer->next;
+
+        if(!strcmp(criterion, "name"))
+            pointer = pointer->nextName;
+        else
+            pointer = pointer->nextMark;
     }
 
     fclose(output);
