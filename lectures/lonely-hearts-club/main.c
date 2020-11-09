@@ -44,11 +44,10 @@ void appendCharacteristic(characteristic **listPointer, characteristic *element)
 
     characteristic *list = *listPointer;
 
-    while(list != NULL)
+    while(list->next != NULL)
         list = list->next;
     
     list->next = element;
-    element->next = NULL;
 }
 
 void freeCharacteristics(characteristic *list)
@@ -165,15 +164,21 @@ person *readPersons(FILE *inputFile)
     return start;
 }
 
-int matchCharacteristic(characteristic *needle, characteristic *haystack)
+int matchCharacteristics(characteristic *needle, characteristic *haystack)
 {
     int found = 0;
-    while(haystack != NULL && !found)
+    while(needle != NULL)
     {
-        if(!strcmp(needle->name, haystack->name) && !strcmp(needle->value, haystack->value))
-            found = 1;
-        
-        haystack = haystack->next;
+        characteristic *current = haystack;
+        while(current != NULL)
+        {
+            if(!strcmp(needle->name, current->name) && !strcmp(needle->value, current->value))
+                ++found;
+
+            current = current->next;
+        }
+
+        needle = needle->next;
     }
 
     return found;
@@ -183,8 +188,8 @@ person *search(person *persons, char gender, characteristic *characteristics)
 {
     person *match = NULL;
 
-    int found = 0;
-    while(persons != NULL && !found)
+    int max = -1;
+    while(persons != NULL)
     {
         if(persons->gender == gender)
         {
@@ -192,9 +197,11 @@ person *search(person *persons, char gender, characteristic *characteristics)
             continue;
         }
 
-        if(matchCharacteristic(characteristics, persons->characteristics))
+        int cur = matchCharacteristics(characteristics, persons->characteristics);
+
+        if(cur > max)
         {
-            found = 1;
+            max = cur;
             match = persons;
         }
 
@@ -264,12 +271,12 @@ int getAttributes(char ****data)
         char k[MAX_FIELD_LEN + 1];
         char v[MAX_FIELD_LEN + 1];
 
-        int count = sscanf(line, " %s %s", k, v);
+        sscanf(offset, " %s %s", k, v);
 
         matrix[i][0] = strdup(k);
         matrix[i][1] = strdup(v);
 
-        offset += count;
+        offset = strstr(line, v) + strlen(v);
     }
 
     *data = matrix;
@@ -300,6 +307,7 @@ int runCommand(person *persons)
 
         c->name = attributes[i][0];
         c->value = attributes[i][1];
+        c->next = NULL;
 
         appendCharacteristic(&characteristics, c);
     }
