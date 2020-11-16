@@ -29,6 +29,9 @@ Like list sorting, but two parallel lists are created and sorted individually.
 ## Pointer and value
 Small code snippet to show the difference between pointers and values and their usage.
 
+## Eight queens puzzle
+Solves the [eight queens puzzle](https://en.wikipedia.org/wiki/Eight_queens_puzzle)
+
 ## Regions
 Use recursion to divide a fenced fields into regions.
 
