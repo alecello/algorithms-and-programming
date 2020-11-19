@@ -12,6 +12,9 @@ Accepts a crosspuzle, a word list and prints out the solution.
 ## Delete values from array
 Deletes a certain value from an integer array, shrinking (but not reallocating) it in the process.
 
+## Hitori puzzle
+Solves the [hitori puzzle](https://en.wikipedia.org/wiki/Hitori)
+
 ## Horizontal histogram
 Plot on an horizontal histogram the frequency of the input values sorted in classes.
 
