@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define MAX_FIELD 20
+#define PRINT_ALL 1
 
 typedef struct product
 {
@@ -23,7 +24,8 @@ typedef struct manufacturer
 }
 manufacturer;
 
-manufacturer *findManufacturer(char *id, manufacturer *manufacturers);
+manufacturer *findManufacturerByID(char *id, manufacturer *manufacturers);
+manufacturer *findManufacturerByName(char *name, manufacturer *manufacturers);
 
 int main(void)
 {
@@ -62,7 +64,7 @@ int main(void)
         e->price = price;
         e->next = NULL;
 
-        manufacturer *m = findManufacturer(id, manufacturers);
+        manufacturer *m = findManufacturerByID(id, manufacturers);
         if(m != NULL)
         {
             e->next = m->products;
@@ -70,14 +72,50 @@ int main(void)
         }
     }
 
+    char input[MAX_FIELD + 1 + 1];
+    while(1)
+    {
+        printf(">>> ");
+        fgets(input, (MAX_FIELD + 2), stdin);
+
+        if(strcmp(input, "end") == 0)
+            break;
+
+        // Search for a newline or space and replace it with a null terminator
+        for(int i = 0; i < strlen(input); ++i)
+            if(input[i] == ' ' || input[i] == '\n')
+            {
+                input[i] = 0;
+                break;
+            }
+        
+        manufacturer *m = findManufacturerByName(input, manufacturers);
+
+        if(m != NULL)
+        {
+            product *p = m->products;
+
+            while(p != NULL)
+            {
+                printf("\t%s (%d €)\n", p->name, p->price);
+                p = p->next;
+            }
+        }
+        else
+            fprintf(stderr, "Manufacturer not found.\n");
+        
+    }
+
     // Print everything and free allocated memory
     while(manufacturers != NULL)
     {
-        printf("Manufacturer \"%s\" (ID %s):\n", manufacturers->name, manufacturers->id);
+        if(PRINT_ALL)
+            printf("Manufacturer \"%s\" (ID %s):\n", manufacturers->name, manufacturers->id);
 
         while(manufacturers->products != NULL)
         {
-            printf("\t%s (%d €)\n", manufacturers->products->name, manufacturers->products->price);
+            if(PRINT_ALL)
+                printf("\t%s (%d €)\n", manufacturers->products->name, manufacturers->products->price);
 
             product *p = manufacturers->products->next;
             free(manufacturers->products);
@@ -90,11 +128,24 @@ int main(void)
     }
 }
 
-manufacturer *findManufacturer(char *id, manufacturer *manufacturers)
+manufacturer *findManufacturerByID(char *id, manufacturer *manufacturers)
 {
     while(manufacturers != NULL)
     {
         if((strlen(id) == strlen(manufacturers->id)) && (strcmp(id, manufacturers->id) == 0))
+            return manufacturers;
+        
+        manufacturers = manufacturers->next;
+    }
+
+    return NULL;
+}
+
+manufacturer *findManufacturerByName(char *name, manufacturer *manufacturers)
+{
+    while(manufacturers != NULL)
+    {
+        if((strlen(name) == strlen(manufacturers->name)) && (strcmp(name, manufacturers->name) == 0))
             return manufacturers;
         
         manufacturers = manufacturers->next;
