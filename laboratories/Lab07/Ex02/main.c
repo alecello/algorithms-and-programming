@@ -4,6 +4,8 @@
 
 int mult(int a, int b)
 {
+    if(b == 0)
+        return 0;
     if(b == 1)
         return a;
     else
@@ -70,6 +72,9 @@ void triangle_r(int r, int max)
 
 void triangle_r_norecurse(int r, int c, int max)
 {
+    if(r > max)
+        return;
+
     if(c > r)
     {
         c = 1;
@@ -78,9 +83,6 @@ void triangle_r_norecurse(int r, int c, int max)
         putchar('\n');
     }
 
-    if(r > max)
-        return;
-    
     putchar('0'+ r);
     triangle_r_norecurse(r, c+1, max);
 }
