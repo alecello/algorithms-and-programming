@@ -53,5 +53,8 @@ Showcase how strings are passed between functions.
 ## Subvector search
 Find a subvector inside a bigger vector.
 
+## Verbal arithmetic
+Generates a solution to a [verbal arithmetic puzzle](https://en.wikipedia.org/wiki/Verbal_arithmetic) or validates a user-provided one.
+
 ## Vertical histogram
 Same as horizontal histogram, but with 100% more verticalization.
