@@ -20,6 +20,6 @@ stack-struct:
 	    client.c stack.c util.c item.c -lm
 
 clean:
-	rm -rf main
-	rm -rf item.h
-	rm -rf item.c
+	rm -f main
+	rm -f item.h
+	rm -f item.c
