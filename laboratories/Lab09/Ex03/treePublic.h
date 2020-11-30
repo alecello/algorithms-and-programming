@@ -24,4 +24,3 @@ void writeTree(FILE *, node_t *, int);
 void freeTree(node_t *);
 
 #endif
-

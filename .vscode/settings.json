@@ -1,7 +1,24 @@
 {
-    "files.associations": {
+    "files.associations":
+    {
         "cstdlib": "c",
         "algorithm": "c",
         "functional": "c"
-    }
+    },
+
+    "[c]":
+    {
+        "editor.wordBasedSuggestions": false,
+        "editor.suggest.insertMode": "replace",
+        "editor.semanticHighlighting.enabled": true,
+
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "files.trimFinalNewlines": true
+    },
+
+    "C_Cpp.default.includePath":
+    [
+        "${fileDirname}"
+    ]
 }

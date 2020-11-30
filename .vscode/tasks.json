@@ -36,7 +36,6 @@
             "type": "process",
             "command": "make",
             "args": [
-                "-B",
                 "${fileDirname}/main"
             ],
             "options": {

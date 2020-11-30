@@ -24,10 +24,10 @@ compile:
 		fi \
 	done
 
-%/main: %
-	if [ ! -f $^/Makefile ]; then \
-			SOURCES=$$(find $^ -type f -name '*.c' -printf '%p '); \
-			gcc -o $@ $$SOURCES -Wall -pedantic -ggdb -lm; \
-		else \
-			make -C $^; \
-		fi \
+%/main: % %/*.c
+	if [ ! -f $</Makefile ]; then \
+		SOURCES=$$(find $< -type f -name '*.c' -printf '%p '); \
+		gcc -o $</main $$SOURCES -Wall -pedantic -ggdb -lm; \
+	else \
+		make -C $<; \
+	fi \

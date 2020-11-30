@@ -26,7 +26,7 @@ void recurseLevel(node_t *root, int *array, int l, int count)
 {
     if(count == l)
         return;
-    
+
     ++array[count];
 
     if(root->left != NULL)
@@ -78,7 +78,7 @@ int getDistance(node_t *root, int key, int count)
 {
     if(root->val == key)
         return count;
-    
+
     if(key < root->val)
         return getDistance(root->left, key, (count + 1));
     else
