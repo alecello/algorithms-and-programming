@@ -36,7 +36,8 @@
             "type": "process",
             "command": "make",
             "args": [
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "-B",
+                "${fileDirname}/main"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
