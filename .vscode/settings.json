@@ -19,6 +19,7 @@
 
     "C_Cpp.default.includePath":
     [
-        "${fileDirname}"
+        "${fileDirname}",
+        "${workspaceFolder}/lib/hdr"
     ]
 }
