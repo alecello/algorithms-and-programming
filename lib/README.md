@@ -4,9 +4,6 @@ This folder contains libraries that are available for use from clients in other 
 
 ## Build system
 
-Building a library proceeds as follows
+The build system automatically cretes the static archive for each library in the `lib/bin` folder under the name `libname.a` (for a library named `name`).
 
-- Create an `obj` subfolder in the library folder if it does not exist
-- Compile all the code units of the library to object files in the `obj` folder
-- Assemble all the object files inside an archive named `lib[name].a` in the `lib/bin` folder
-- Copy the `public.h` header to `libs/hdr/lib[name].h`
+Each library must expose a public header named `public.h` that will be copied in the `lib/hdr` folder with the name `name.h` (for a library named `name`). Alternatively a library can include a makefile that will be executed
