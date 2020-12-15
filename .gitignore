@@ -3,3 +3,8 @@
 !/**/
 !*.*
 !Makefile
+**/out/
+
+lib/hdr
+lib/bin
+lib/src/*/out
