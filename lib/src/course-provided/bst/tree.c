@@ -305,7 +305,102 @@ int recurseDistance(node_t *root, data_t key, int count)
       return recurseDistance(root->right, key, (count + 1));
 }
 
-int getDistance(node_t *root, data_t key)
+int getDistanceFromRoot(node_t *root, data_t key)
 {
   return recurseDistance(root, key, 0);
+}
+
+node_t *recurSameSide(node_t *root, data_t key1, data_t key2, int count)
+{
+    if((compare(key1, root->val) < 0 && compare(key2, root->val) < 0))
+        return recurSameSide(root->left, key1, key2, (count + 1));
+
+    if((compare(key1, root->val) > 0 && compare(key2, root->val) > 0))
+        return recurSameSide(root->right, key1, key2, (count + 1));
+
+    return root;
+}
+
+int getRelativeDistance(node_t *root, data_t key1, data_t key2)
+{
+    if(searchR(root, key1) == NULL || searchR(root, key2) == NULL)
+        return -1;
+
+    // First we recur until the point where the two keys are on two different sides of the root
+    root = recurSameSide(root, key1, key2, 0);
+
+    // Now calculating the distance between the two should be as easy as summin the two distances wrt new root.
+    int distance1 = recurseDistance(root, key1, 0);
+    int distance2 = recurseDistance(root, key2, 0);
+
+    return distance1 + distance2;
+}
+
+// Accepts a tree and an array of three integers as argument. In the first element of the array it will place the count
+// of nodes that have no children. In the second slot the count of nodes that have one children. In the third the count
+// of nodes that have two children.
+void countNode(node_t *root, int *array)
+{
+    if(root == NULL)
+        return;
+
+    int children = 0;
+
+    if(root->left != NULL)
+    {
+        ++children;
+        countNode(root->left, array);
+    }
+
+    if(root->right != NULL)
+    {
+        ++children;
+        countNode(root->right, array);
+    }
+
+    ++array[children];
+}
+
+void recurseLevel(node_t *root, int *array, int l, int count)
+{
+    if(count == l)
+        return;
+
+    ++array[count];
+
+    if(root->left != NULL)
+        recurseLevel(root->left, array, l, (count + 1));
+
+    if(root->right != NULL)
+        recurseLevel(root->right, array, l, (count + 1));
+}
+
+// Accepts an array. Will recurse up to the l-th level of the tree and save in the array the number of nodes for each
+// level.
+void countLevel(node_t *root, int *array, int l)
+{
+    recurseLevel(root, array, l, 0);
+}
+
+void recursePath(node_t *root, int *np, int *length, int count)
+{
+    if(root->left == NULL && root->right == NULL)
+    {
+        ++(*np);
+        *(length) += count;
+
+        return;
+    }
+
+    if(root->left != NULL)
+        recursePath(root->left, np, length, (count + 1));
+
+    if(root->right != NULL)
+        recursePath(root->right, np, length, (count + 1));
+}
+
+// Will count total number of distinct paths leading to a leaf and the sum of all their lengths
+void countPath(node_t *root, int *np, int *length)
+{
+    recursePath(root, np, length, 0);
 }
