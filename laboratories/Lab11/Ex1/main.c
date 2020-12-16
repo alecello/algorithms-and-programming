@@ -140,7 +140,7 @@ void listAndBST()
         char *key = KEYget(ITEMgetFromLink(list));
         cursor->registerNumber = strdup(key);
 
-        int level = getDistance(bst, cursor);
+        int level = getDistanceFromRoot(bst, cursor);
         printf("Register number: %s Level: %d\n", key, level);
 
         free(cursor->registerNumber);
