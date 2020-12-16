@@ -59,44 +59,32 @@ int orderedInsertion(student **listPointer, char *surname, char *name)
 
     strcpy(new->name, name);
     strcpy(new->surname, surname);
-    new->next = NULL;
-
-    if(list == NULL)
-    {
-        *listPointer = new;
-        return TRUE;
-    }
 
     student *parent = NULL;
     student *cursor = list;
 
-    while(cursor != NULL)
+    while(cursor != NULL && studentcmp(new, cursor) > 0)
     {
-        if(studentcmp(new, cursor) < 0)
-        {
-            if(parent == NULL)
-            {
-                new->next = list;
-                *listPointer = new;
-                return TRUE;
-            }
-            else
-            {
-                parent->next = new;
-                new->next = cursor;
-                return TRUE;
-            }
-        }
-        else if(studentcmp(new, cursor) == 0)
-        {
-            free(new);
-            return FALSE;
-        }
-
         parent = cursor;
         cursor = cursor->next;
     }
 
-    parent->next = new;
+    if(cursor != NULL && studentcmp(new, cursor) == 0)
+    {
+        free(new);
+        return FALSE;
+    }
+
+    if(parent == NULL)
+    {
+        new->next = list;
+        *listPointer = new;
+    }
+    else
+    {
+        parent->next = new;
+        new->next = cursor;
+    }
+
     return TRUE;
 }
