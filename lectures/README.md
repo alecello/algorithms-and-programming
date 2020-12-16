@@ -3,6 +3,12 @@
 ## Anagram
 Detect wether two provided words are anagrams of eachother.
 
+## Array merge
+Merges three arrays sorted in ascending order into one array always sorted in ascending order.
+
+## Bank
+Accepts N monetary movements from the user and prints the combination that results in the lowest possible delta between the maximum and minimum value of the bank account, assuming zero as the starting value.
+
 ## Broken line
 Accepts as input a series of line definitions and prints out wether those segments are all part of a broken line or not.
 
@@ -37,6 +43,9 @@ Solves the [eight queens puzzle](https://en.wikipedia.org/wiki/Eight_queens_puzz
 
 ## Regions
 Use recursion to divide a fenced fields into regions.
+
+## Registry
+Store students' name and surname in an ordered list.
 
 ## Replace substring
 Replace an arbitrary length substring inside another arbitrary length string with an arbitrary length replacement.
