@@ -88,7 +88,10 @@ int orderedInsertion(student **listPointer, char *surname, char *name)
             }
         }
         else if(studentcmp(new, cursor) == 0)
+        {
+            free(new);
             return FALSE;
+        }
 
         parent = cursor;
         cursor = cursor->next;
