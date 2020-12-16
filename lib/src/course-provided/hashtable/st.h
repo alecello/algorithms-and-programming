@@ -10,7 +10,8 @@
     void	STdelete(ST, Key);
     void	STdisplay(ST st, FILE *fd);
     data_t  STgetData(Item item);
+    
     link    listUnique(ST st);
-    link    getNext(link l);
-    Item    getItemFromLink(link l);
+    link    LINKgetNext(link l);
+    Item    ITEMgetFromLink(link l);
 #endif

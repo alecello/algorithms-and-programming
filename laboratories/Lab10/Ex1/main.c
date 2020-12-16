@@ -137,7 +137,7 @@ void listAndBST()
 
     while(list != NULL)
     {
-        char *key = KEYget(getItemFromLink(list));
+        char *key = KEYget(ITEMgetFromLink(list));
         cursor->registerNumber = strdup(key);
 
         int level = getDistance(bst, cursor);
@@ -145,6 +145,6 @@ void listAndBST()
 
         free(cursor->registerNumber);
 
-        list = getNext(list);
+        list = LINKgetNext(list);
     }
 }

@@ -44,7 +44,7 @@ int main(void)
     char **visited = malloc(rows * sizeof(char *));
     for(int i = 0; i < rows; ++i)
         visited[i] = calloc(cols, sizeof(char));
-    
+
     readMaze(input, maze, rows, cols);
 
     int shortest = -1;
@@ -82,9 +82,9 @@ void findStart(int *rr, int *cc, int rows, int cols, char **maze)
                 *cc = c;
                 return;
             }
-    
-    rr = NULL;
-    cc = NULL;
+
+    *rr = -1;
+    *cc = -1;
 }
 
 void solveMaze(int count, int r, int c, int pr, int pc, char **maze, char **visited, int *shortest, element **shortestPath, element *stack)
@@ -102,7 +102,7 @@ void solveMaze(int count, int r, int c, int pr, int pc, char **maze, char **visi
         printPath(stack);
         return;
     }
-    
+
     for(int i = 0; i < D; ++i)
     {
         int nr = (r + directions[i][R]);

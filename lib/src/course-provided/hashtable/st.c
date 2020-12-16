@@ -135,6 +135,7 @@ void STdisplay(ST st, FILE *fd)
   return;
 }
 
+// Creates a unique linked list from all items in the hash table
 link listUnique(ST st)
 {
   link retval = NULL;
@@ -160,12 +161,14 @@ link listUnique(ST st)
   return retval;
 }
 
-link getNext(link l)
+// Gets next element of the linked list
+link LINKgetNext(link l)
 {
   return l->next;
 }
 
-Item getItemFromLink(link l)
+// Gets Item from a linked list
+Item ITEMgetFromLink(link l)
 {
   return l->item;
 }

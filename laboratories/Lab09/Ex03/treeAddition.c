@@ -5,6 +5,9 @@
 // Position 3: nodes with two children
 void countNode(node_t *root, int *array)
 {
+    if(root == NULL)
+        return;
+
     int children = 0;
 
     if(root->left != NULL)
