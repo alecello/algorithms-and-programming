@@ -9,7 +9,7 @@ The text of the problems are provided by prof. Stefano Quer and are **not** affi
 
 
 ## VS Code support
-VS Code support is included in the repo (since it's the editor I use). The default build task (`CTRL + SHIFT + B` with default keybinds) will rebuild all the applications, whereas the default debug configuration (`F5` with default keybinds) will rebuild the current file only and debug it with gdb.
+VS Code support is included in the repo (since it's the editor I use). The default build task (`CTRL + SHIFT + B` with default keybinds) will build all the applications, whereas the default debug configuration (`F5` with default keybinds) will rebuild the current file only and debug it with gdb.
 
 ## Building the project
 A `makefile` is provided to build all the projects at once. The makefile, as well as the entire project, is only designed to support UNIX-Like operating systems that have the GNU utilities (or equivalent) installed alongside GCC. No plan to support any other platform or compiler. Of course each project can be built manually.
