@@ -8,7 +8,7 @@
             "type": "process",
             "command": "make",
             "args": [
-                "recompile"
+                "compile"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
