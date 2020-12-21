@@ -87,7 +87,8 @@ int main(int argc, char **argv)
     listAndBST();
 
     // Clean up and exit
-    visitTree(bst, INORDER, BSTFreeCallback);
+    // We need post-order since we want to free both children first
+    visitTree(bst, POSTORDER, BSTFreeCallback);
     freeTree(bst);
 
     fclose(input);
