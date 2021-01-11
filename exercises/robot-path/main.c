@@ -20,6 +20,7 @@ void cover(int *steps, int n, int distance)
 {
     stack_p stack = initStack();
     calculateSequences(stack, steps, n, distance, 0);
+    destroyStack(stack);
 }
 
 void calculateSequences(stack_p stack, int *steps, int n, int distance, int current)
