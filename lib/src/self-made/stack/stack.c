@@ -22,6 +22,7 @@ void pushStack(stack_p stackPointer, data_t payload, char freeBehavior)
     new->freeBehavior = freeBehavior;
 
     stackPointer->head = new;
+    stackPointer->elements++;
 }
 
 data_t popStack(stack_p stackPointer)
@@ -35,6 +36,7 @@ data_t popStack(stack_p stackPointer)
     destroyItem(stackPointer->head);
 
     stackPointer->head = next;
+    stackPointer->elements--;
     return payload;
 }
 
