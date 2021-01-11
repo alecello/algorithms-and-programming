@@ -1,5 +1,3 @@
-// Element of the stack
-
 #define STACK_FREE_AFTER_POP 1  // Free() the payload after pop
 #define STACK_NOOP_AFTER_POP 0  // Do not free() the payload after pop
 
