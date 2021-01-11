@@ -68,6 +68,8 @@ void destroyStack(stack_p stackPointer)
 
         head = next;
     }
+
+    free(stackPointer);
 }
 
 void destroyItem(item_p item)
