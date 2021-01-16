@@ -5,7 +5,8 @@
 
 void cover(int *steps, int n, int distance);
 void calculateSequences(stack_p stack, int *steps, int n, int distance, int current);
-void printStep(data_t payload);
+
+int printStep(data_t payload);
 
 int main(void)
 {
@@ -18,9 +19,9 @@ int main(void)
 
 void cover(int *steps, int n, int distance)
 {
-    stack_p stack = initStack();
+    stack_p stack = stackInitialize();
     calculateSequences(stack, steps, n, distance, 0);
-    destroyStack(stack);
+    stackDestroy(stack);
 }
 
 void calculateSequences(stack_p stack, int *steps, int n, int distance, int current)
@@ -30,7 +31,8 @@ void calculateSequences(stack_p stack, int *steps, int n, int distance, int curr
         if(current == distance)
         {
             printf("SEQUENCE FOUND:\n\t");
-            traverseStack(stack, printStep);
+            stackSetEnumerationCallback(printStep);
+            stackTraverse(stack);
             printf("\n\n");
         }
 
@@ -42,13 +44,14 @@ void calculateSequences(stack_p stack, int *steps, int n, int distance, int curr
         int *payload = malloc(sizeof(int));
         *payload = steps[i];
 
-        pushStack(stack, payload, STACK_FREE_AFTER_POP);
+        stackPush(stack, payload, STACK_FREE_AFTER_POP);
         calculateSequences(stack, steps, n, distance, current + steps[i]);
-        popStack(stack);
+        stackPop(stack);
     }
 }
 
-void printStep(data_t payload)
+int printStep(data_t payload)
 {
     printf("%d ", *((int *) payload));
+    return 0;
 }
