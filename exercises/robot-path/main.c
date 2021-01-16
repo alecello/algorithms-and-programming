@@ -4,9 +4,9 @@
 #include "self-made/stack.h"
 
 void cover(int *steps, int n, int distance);
-void calculateSequences(stack_p stack, int *steps, int n, int distance, int current);
+void calculateSequences(Stack stack, int *steps, int n, int distance, int current);
 
-int printStep(data_t payload);
+int printStep(Data payload);
 
 int main(void)
 {
@@ -19,12 +19,12 @@ int main(void)
 
 void cover(int *steps, int n, int distance)
 {
-    stack_p stack = stackInitialize();
+    Stack stack = stackInitialize();
     calculateSequences(stack, steps, n, distance, 0);
     stackDestroy(stack);
 }
 
-void calculateSequences(stack_p stack, int *steps, int n, int distance, int current)
+void calculateSequences(Stack stack, int *steps, int n, int distance, int current)
 {
     if(current >= distance)
     {
@@ -50,7 +50,7 @@ void calculateSequences(stack_p stack, int *steps, int n, int distance, int curr
     }
 }
 
-int printStep(data_t payload)
+int printStep(Data payload)
 {
     printf("%d ", *((int *) payload));
     return 0;

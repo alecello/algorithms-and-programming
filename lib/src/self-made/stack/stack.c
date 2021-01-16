@@ -1,11 +1,11 @@
 #include "stack.h"
 
-static int (* itemDestroyCallback)(data_t) = NULL;
-static int (* enumerationCallback)(data_t) = NULL;
+static int (* itemDestroyCallback)(Data) = NULL;
+static int (* enumerationCallback)(Data) = NULL;
 
-stack_p stackInitialize()
+Stack stackInitialize()
 {
-    stack_p stack = malloc(sizeof(*stack));
+    Stack stack = malloc(sizeof(*stack));
 
     stack->elements = 0;
     stack->head = 0;
@@ -13,64 +13,64 @@ stack_p stackInitialize()
     return stack;
 }
 
-void stackPush(stack_p stackPointer, data_t payload, char freeBehavior)
+void stackPush(Stack stackPointer, Data data, char freeBehavior)
 {
     if(stackPointer == NULL)
         return;
 
-    item_p new = malloc(sizeof(*new));
+    Item new = malloc(sizeof(*new));
 
-    new->payload = payload;
+    new->data = data;
     new->next = stackPointer->head;
 
     stackPointer->head = new;
     stackPointer->elements++;
 }
 
-data_t stackPop(stack_p stackPointer)
+Data stackPop(Stack stackPointer)
 {
     if(stackPointer == NULL || stackPointer->head == NULL)
         return NULL;
 
-    item_p next = stackPointer->head->next;
-    data_t payload = stackPointer->head->payload;
+    Item next = stackPointer->head->next;
+    Data data = stackPointer->head->data;
 
     if(itemDestroyCallback != NULL)
-        itemDestroyCallback(stackPointer->head->payload);
+        itemDestroyCallback(stackPointer->head->data);
 
     free(stackPointer->head);
 
     stackPointer->head = next;
     stackPointer->elements--;
-    return payload;
+    return data;
 }
 
-void stackTraverse(stack_p stackPointer)
+void stackTraverse(Stack stackPointer)
 {
     if(enumerationCallback == NULL || stackPointer == NULL)
         return;
 
-    item_p head = stackPointer->head;
+    Item head = stackPointer->head;
 
     while(head != NULL)
     {
-        enumerationCallback(head->payload);
+        enumerationCallback(head->data);
         head = head->next;
     }
 }
 
-void stackDestroy(stack_p stackPointer)
+void stackDestroy(Stack stackPointer)
 {
     if(stackPointer == NULL)
         return;
 
-    item_p head = stackPointer->head;
+    Item head = stackPointer->head;
 
     while(head != NULL)
     {
-        item_p next = head->next;
+        Item next = head->next;
         if(itemDestroyCallback != NULL)
-            itemDestroyCallback(head->payload);
+            itemDestroyCallback(head->data);
 
         head = next;
     }
@@ -78,12 +78,12 @@ void stackDestroy(stack_p stackPointer)
     free(stackPointer);
 }
 
-void stackSetItemDestroyCallback(int (* callback)(data_t payload))
+void stackSetItemDestroyCallback(int (* callback)(Data data))
 {
     itemDestroyCallback = callback;
 }
 
-void stackSetEnumerationCallback(int (* callback)(data_t payload))
+void stackSetEnumerationCallback(int (* callback)(Data data))
 {
     enumerationCallback = callback;
 }

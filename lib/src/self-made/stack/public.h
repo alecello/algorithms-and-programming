@@ -3,24 +3,17 @@
     #define STACK_FREE_AFTER_POP 1  // Free() the payload after pop
     #define STACK_NOOP_AFTER_POP 0  // Do not free() the payload after pop
 
-    struct stack_s;
-    struct item_s;
+    typedef struct structStack * Stack;
+    typedef struct structItem  * Item;
 
-    typedef struct stack_s stack_t;
-    typedef stack_t * stack_p;
+    typedef        void        * Data;
 
-    typedef struct item_s item_t;
-    typedef item_t * item_p;
+    Stack stackInitialize();
+    Data stackPop(Stack stackPointer);
 
-
-    typedef void * data_t;
-
-    stack_p stackInitialize();
-    data_t stackPop(stack_p stackPointer);
-
-    void stackPush(stack_p stackPointer, data_t payload, char freeBehavior);
-    void stackTraverse(stack_p stackPointer);
-    void stackDestroy(stack_p stackPointer);
-    void stackSetItemDestroyCallback(int (* callback)(data_t payload));
-    void stackSetEnumerationCallback(int (* callback)(data_t payload));
+    void stackPush(Stack stackPointer, Data data, char freeBehavior);
+    void stackTraverse(Stack stackPointer);
+    void stackDestroy(Stack stackPointer);
+    void stackSetItemDestroyCallback(int (* callback)(Data data));
+    void stackSetEnumerationCallback(int (* callback)(Data data));
 #endif

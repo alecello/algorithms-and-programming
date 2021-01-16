@@ -3,15 +3,15 @@
     #include "public.h"
     #include <stdlib.h>
 
-    struct stack_s
+    struct structStack
     {
-        int    elements;
-        item_p head;
+        int  elements;
+        Item head;
     };
 
-    struct item_s
+    struct structItem
     {
-        void * payload;
-        item_p next;
+        Data data;
+        Item next;
     };
 #endif
