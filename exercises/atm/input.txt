@@ -1,0 +1,6 @@
+AaA BbB 10
+AaA CcC  8
+AaA DdD  5
+BbB CcC  7
+BbB DdD  6
+CcC DdD 12
